@@ -2,12 +2,13 @@
 Reads plugin database files (.nfo) created by FL Studio and reorganises them into folders based on plugin vendor names.
 
 ## Requirements
-Python 3.5+ on Windows
+Python 3.4+ on Windows
 
 ## Installation
-* Via pip `python -m pip install --upgrade fl_plugin_db_organiser` **[RECOMMENDED]**, *or*
-* By getting the latest release, and installing `ansicolors`, *or*
-* By cloning this repo and installing required dependency `ansicolors`
+I have this uploaded on pip but installing from there doesn't work, so
+
+* Clone this repo
+* Optionally, install dependency `ansicolors` if you want colored output
 
 ## Usage
 ```
@@ -42,6 +43,7 @@ If you see vendor folders named `SynthEdit www.synthedit.com`, its because plugi
 * Use other method for organizing, but so far I think organizing by vendor names is the best way.
 * Organize native plugins as well under an **Image-Line** folder, is it really required?
 * A [test script](tests/test_script.py)
+* Get pip installation working
 
 ## License
 MIT License
