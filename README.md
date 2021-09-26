@@ -48,7 +48,6 @@ If you see vendor folders named `SynthEdit www.synthedit.com`, its because plugi
 * Use other method for organizing, but so far I think organizing by vendor names is the best way.
 * Organize native plugins as well under an **Image-Line** folder, is it really required?
 * A [test script](tests/test_script.py)
-* Get pip installation working
 
 ## License
 MIT License
