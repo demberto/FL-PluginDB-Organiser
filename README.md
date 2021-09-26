@@ -5,7 +5,12 @@ Reads plugin database files (.nfo) created by FL Studio and reorganises them int
 Python 3.4+ on Windows
 
 ## Installation
-I have this uploaded on pip but installing from there doesn't work, so
+Via pip
+```
+python -m pip install --upgrade fl_plugin_db_organiser
+```
+
+*or* manually,
 
 * Clone this repo
 * Optionally, install dependency `ansicolors` if you want colored output

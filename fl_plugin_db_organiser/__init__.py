@@ -1,14 +1,14 @@
-"""Reads plugin database files (.nfo) created by FL Studio and"""   \
-    """reorganises them into folders based on plugin vendor names."""
-
+import argparse
+import configparser
 import importlib
 import logging
 import os
+import pathlib
 import shutil
-import configparser
-from pathlib import Path
 import sys
-from typing import List, Dict, Literal
+from typing import Dict, List
+
+FL_PLUGINDB_ORGANISER = "fl-plugindb-organizer"
 
 PROHIBITED_FOLDER_NAME_CHARS = ':/\\"*|?<>'
 COLORS = None   # Stores ansicolors module if required
@@ -17,7 +17,7 @@ COLORS = None   # Stores ansicolors module if required
 class PluginDatabaseNotFoundError(Exception):
     """Raised when plugin database folder is not found"""
 
-    def __init__(self, fl_plugin_db_dir: Path) -> None:
+    def __init__(self, fl_plugin_db_dir: pathlib.Path) -> None:
         self._fl_plugin_db_dir = str(fl_plugin_db_dir)
         super().__init__()
 
@@ -51,11 +51,11 @@ def _red(string: str):
 # endregion
 
 
-def fl_plugin_db_organiser(output_dir: Path, log: logging.Logger, no_color: bool):
+def fl_plugin_db_organiser(output_dir: pathlib.Path, log: logging.Logger, no_color: bool):
     """Entry-point to the script.
 
     Args:
-        output_dir (Path): Absolute path to save the plugin database folders.
+        output_dir (pathlib.Path): Absolute path to save the plugin database folders.
         log (logging.Logger): Logger to log to a file.
         no_color (bool): Doesn't output colored text to terminal if `True`.
     """
@@ -98,7 +98,7 @@ def fl_plugin_db_organiser(output_dir: Path, log: logging.Logger, no_color: bool
     log.info("Finding existing database locations")
     print(_yellow("Finding existing database locations..."))
 
-    fl_plugin_db_dir = Path(
+    fl_plugin_db_dir = pathlib.Path(
         os.path.expanduser(
             "~/Documents/Image-Line/FL Studio/Presets/Plugin database/Installed/"
         )
@@ -119,8 +119,8 @@ def fl_plugin_db_organiser(output_dir: Path, log: logging.Logger, no_color: bool
     for folder in (vst2_effect_db_dir, vst2_generator_db_dir,
                    vst3_effect_db_dir, vst3_generator_db_dir):
 
-        fsts = {}   # type: Dict[str, List[Path]]
-        nfos = []   # type: List[Path]
+        fsts = {}   # type: Dict[str, List[pathlib.Path]]
+        nfos = []   # type: List[pathlib.Path]
 
         message = "Scanning %s"
         log.info(message % str(folder))
@@ -205,3 +205,41 @@ def fl_plugin_db_organiser(output_dir: Path, log: logging.Logger, no_color: bool
     print(
         _green("Finished creating database, copy 'Effects' and 'Generators'"
                "folders to %s to see them in FL." % str(fl_plugin_db_dir.parent)))
+
+def main():
+    if not sys.platform.startswith('win32'):
+        raise EnvironmentError("This script is supposed to be run only on Windows.")
+
+    # Argparse setup
+    arg_parser = argparse.ArgumentParser(prog=FL_PLUGINDB_ORGANISER,
+                                         description=__doc__)
+    arg_parser.add_argument("output",
+                            help="pathlib.Path to output database folders")
+    arg_parser.add_argument("--log", '-l',
+                            help="Location to output log file to, defaults "
+                                 "to ./%s.log" % str(FL_PLUGINDB_ORGANISER))
+    arg_parser.add_argument("--no-color",
+                            action='store_true',
+                            help="Disable colored output, necessary if you "
+                                 "haven't installed ansicolors")
+
+    args = arg_parser.parse_args()
+    output_dir = None
+    if args.output == '.':
+        output_dir = pathlib.Path.cwd()
+    else:
+        output_dir = pathlib.Path(args.output)
+
+    # Logging setup (log file is appended to on every run)
+    default_log_name = "%s.log" % FL_PLUGINDB_ORGANISER
+    default_log_location = "%s/%s" % (os.getcwd(), default_log_name)
+    log_file = args.log if args.log else default_log_location
+
+    logging.basicConfig(level=logging.DEBUG,
+                        filename=log_file,
+                        format='%(levelname)-8s %(message)s')
+
+    log = logging.getLogger()
+    log.setLevel(logging.CRITICAL)
+
+    fl_plugin_db_organiser(output_dir, log, args.no_color)

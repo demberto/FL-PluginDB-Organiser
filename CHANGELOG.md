@@ -1,5 +1,9 @@
+# 1.0.13
+## Bug fixes
+Fix import errors in script
+
 # 1.0.0 (2021-09-26)
-FL Plugin DB Organiser is now on [pip]()
+FL Plugin DB Organiser is now on [pip](https://pypi.org/project/fl-plugin-db-organiser)
 
 ## Additions
 * Colored output, can be disabled by passing `--no-color`.
