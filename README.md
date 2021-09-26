@@ -5,7 +5,7 @@ Reads plugin database files (.nfo) created by FL Studio and reorganises them int
 Python 3.4+ on Windows
 
 ## Installation
-Via pip
+Via pip (**RECOMMENDED**)
 ```
 python -m pip install --upgrade fl_plugin_db_organiser
 ```
