@@ -1,1 +1,5 @@
+include *.md
+include tox.ini
+recursive-include tests *.py
+
 exclude fl_plugin_db_organiser/conftest.py
