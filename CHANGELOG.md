@@ -1,3 +1,7 @@
+# 1.0.14
+## Bug fixes
+Fix logging level incorrectly set to `logging.CRITICAL`. Logging will now happen correctly.
+
 # 1.0.13
 ## Bug fixes
 Fix import errors in script

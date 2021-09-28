@@ -225,7 +225,7 @@ def main():
 
     args = arg_parser.parse_args()
     output_dir = None
-    if args.output == '.':
+    if not args.output or args.output == '.':
         output_dir = pathlib.Path.cwd()
     else:
         output_dir = pathlib.Path(args.output)
@@ -240,6 +240,5 @@ def main():
                         format='%(levelname)-8s %(message)s')
 
     log = logging.getLogger()
-    log.setLevel(logging.CRITICAL)
 
     fl_plugin_db_organiser(output_dir, log, args.no_color)
