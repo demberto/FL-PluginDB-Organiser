@@ -1,3 +1,7 @@
+# 1.1.0
+
+Added Mac support #1 @zacanger
+
 # 1.0.14
 ## Bug fixes
 Fix logging level incorrectly set to `logging.CRITICAL`. Logging will now happen correctly.
