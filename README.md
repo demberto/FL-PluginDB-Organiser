@@ -2,7 +2,7 @@
 Reads plugin database files (.nfo) created by FL Studio and reorganises them into folders based on plugin vendor names.
 
 ## Requirements
-Python 3.4+ on Windows
+Python 3.4+ on Windows or macOS
 
 ## Installation
 Via pip
@@ -29,7 +29,7 @@ optional arguments:
 ```
 
 Example: `fl-plugindb-organiser .` will output
-* A log in the current working directory named `fl-plugindb-organiser.log`, *and* 
+* A log in the current working directory named `fl-plugindb-organiser.log`, *and*
 * Create 2 folders **Effects** and **Generators**, which need to copied over to `%USERPROFILE%/Documents/Image-Line/FL Studio/Presets/Plugin database` for FL Studio to detect it.
 
 ## NOTES
@@ -43,7 +43,6 @@ If you want to categorize native plugins as well, just copy the **Fruity** folde
 If you see vendor folders named `SynthEdit www.synthedit.com`, its because plugin developer is using trial version of SynthEdit, actual plugin vendor is stored neither in the .nfo nor the VST itself.
 
 ## TODO
-* Support for Mac: If you are a Mac user who wants to use this, please open an issue with details on where the plugin database is located.
 * Maybe support to copy the new plugin database automatically to where it is stored by FL and backing up existing one.
 * Use other method for organizing, but so far I think organizing by vendor names is the best way.
 * Organize native plugins as well under an **Image-Line** folder, is it really required?
