@@ -109,15 +109,22 @@ def fl_plugin_db_organiser(output_dir: pathlib.Path, log: logging.Logger, no_col
 
     vst2_effect_db_dir = fl_plugin_db_dir / "Effects/VST"
     vst3_effect_db_dir = fl_plugin_db_dir / "Effects/VST3"
+    au_effect_db_dir = fl_plugin_db_dir / "Effects/AudioUnit"
     vst2_generator_db_dir = fl_plugin_db_dir / "Generators/VST"
     vst3_generator_db_dir = fl_plugin_db_dir / "Generators/VST3"
+    au_generator_db_dir = fl_plugin_db_dir / "Generators/AudioUnit"
     # endregion
 
     config_parser = configparser.ConfigParser()
 
     # region Discover .nfos, warn user of any missing folders.
-    for folder in (vst2_effect_db_dir, vst2_generator_db_dir,
-                   vst3_effect_db_dir, vst3_generator_db_dir):
+    valid_folders = (vst2_effect_db_dir, vst2_generator_db_dir,
+                     vst3_effect_db_dir, vst3_generator_db_dir)
+
+    if sys.platform == "darwin":
+        valid_folders += (au_effect_db_dir, au_generator_db_dir)
+
+    for folder in valid_folders:
 
         fsts = {}   # type: Dict[str, List[pathlib.Path]]
         nfos = []   # type: List[pathlib.Path]
@@ -206,10 +213,8 @@ def fl_plugin_db_organiser(output_dir: pathlib.Path, log: logging.Logger, no_col
         _green("Finished creating database, copy 'Effects' and 'Generators'"
                "folders to %s to see them in FL." % str(fl_plugin_db_dir.parent)))
 
-def main():
-    if not sys.platform.startswith('win32'):
-        raise EnvironmentError("This script is supposed to be run only on Windows.")
 
+def main():
     # Argparse setup
     arg_parser = argparse.ArgumentParser(prog=FL_PLUGINDB_ORGANISER,
                                          description=__doc__)
